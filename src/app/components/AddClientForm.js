@@ -1,6 +1,5 @@
 // src/app/components/AddClientForm.js
 "use client"
-
 import { useState } from 'react';
 
 const AddClientForm = () => {
