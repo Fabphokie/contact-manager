@@ -16,6 +16,7 @@ const ContactList = () => {
         setContacts(data.contacts);
         setLoading(false);
       } catch (err) {
+        console.error('Fetch error:', err); // Log error for debugging
         setError(err.message);
         setLoading(false);
       }
@@ -26,6 +27,7 @@ const ContactList = () => {
 
   if (loading) return <div className="text-center py-4 text-xl">Loading...</div>;
   if (error) return <div className="text-center py-4 text-red-500 text-xl">Error: {error}</div>;
+  if (contacts.length === 0) return <div className="text-center py-4 text-xl">No contacts available.</div>;
 
   return (
     <div className="container mx-auto p-4">
@@ -40,8 +42,9 @@ const ContactList = () => {
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contact) => (
-            <tr key={contact._id?.$oid || contact.clientCode || contact.name} className="hover:bg-gray-100">
+          {contacts.map((contact, index) => (
+            // Combining unique fields (e.g., contact._id?.$oid, contact.clientCode, index) to form a unique key
+            <tr key={contact._id?.$oid || `${contact.clientCode}-${index}`} className="hover:bg-gray-100">
               <td className="px-6 py-4 border-t">{contact.name}</td>
               <td className="px-6 py-4 border-t">{contact.surname}</td>
               <td className="px-6 py-4 border-t">{contact.contactEmail}</td>
