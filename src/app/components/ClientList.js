@@ -24,28 +24,28 @@ const ContactList = () => {
     fetchContacts();
   }, []);
 
-  if (loading) return <div className="text-center text-gray-500 mt-4">Loading...</div>;
-  if (error) return <div className="text-center text-red-600 font-medium mt-4">Error: {error}</div>;
+  if (loading) return <div className="text-center py-4 text-xl">Loading...</div>;
+  if (error) return <div className="text-center py-4 text-red-500 text-xl">Error: {error}</div>;
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contact List</h2>
-      <table className="table-auto w-full border border-gray-200 rounded-lg overflow-hidden">
-        <thead>
-          <tr className="bg-gray-200 text-gray-600 uppercase text-sm">
-            <th className="px-4 py-2 font-semibold">Name</th>
-            <th className="px-4 py-2 font-semibold">Surname</th>
-            <th className="px-4 py-2 font-semibold">Email Address</th>
-            <th className="px-4 py-2 font-semibold">Client Code</th>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold text-center mb-6">Contact List</h2>
+      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead className="bg-blue-600 text-white">
+          <tr>
+            <th className="px-6 py-3 text-left">Name</th>
+            <th className="px-6 py-3 text-left">Surname</th>
+            <th className="px-6 py-3 text-left">Email Address</th>
+            <th className="px-6 py-3 text-left">Client Code</th>
           </tr>
         </thead>
         <tbody>
           {contacts.map((contact) => (
-            <tr key={contact._id} className="odd:bg-white even:bg-gray-50">
-              <td className="border px-4 py-2 text-gray-700">{contact.name}</td>
-              <td className="border px-4 py-2 text-gray-700">{contact.surname}</td>
-              <td className="border px-4 py-2 text-gray-700">{contact.email}</td>
-              <td className="border px-4 py-2 text-gray-700">{contact.clientCode}</td>
+            <tr key={contact._id?.$oid || contact.clientCode || contact.name} className="hover:bg-gray-100">
+              <td className="px-6 py-4 border-t">{contact.name}</td>
+              <td className="px-6 py-4 border-t">{contact.surname}</td>
+              <td className="px-6 py-4 border-t">{contact.contactEmail}</td>
+              <td className="px-6 py-4 border-t">{contact.clientCode}</td>
             </tr>
           ))}
         </tbody>
