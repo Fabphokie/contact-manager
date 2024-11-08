@@ -8,7 +8,7 @@ const dbName = process.env.MONGODB_DB; // Make sure to set this in your .env fil
 let client;
 let clientPromise;
 
-// Check if we are in a development environment (for better hot reloading in development)
+// Check if we are in a development environment 
 if (process.env.NODE_ENV === 'development') {
   // In development, use a global variable so that the MongoClient is reused
   if (!global._mongoClientPromise) {

@@ -1,22 +1,21 @@
-// pages/api/clients.js
-import { MongoClient } from 'mongodb';
+import clientPromise from '../../../lib/mongodb'; // Assuming you have this for DB connection
 
-const client = new MongoClient(process.env.MONGODB_URI);
+export async function handler(req, res) {
+  const client = await clientPromise;
+  const db = client.db('mmaphokengsenne'); // Use your database name
+  const contactsCollection = db.collection('contacts'); // Use your contacts collection name
 
-async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      await client.connect();
-      const db = client.db('mmaphokengsenne'); // Use your database name if required
-      const clients = await db.collection('clients').find({}).toArray(); // Fetch all clients
-      res.status(200).json({ clients });
+      // Fetch all contacts
+      const contacts = await contactsCollection.find().toArray();
+      res.status(200).json({ contacts }); // Return the contacts as response
     } catch (error) {
-      res.status(500).json({ message: 'Error fetching clients' });
-    } finally {
-      await client.close();
+      console.error('Error fetching contacts:', error);
+      res.status(500).json({ error: 'Failed to fetch contacts' });
     }
   } else {
-    res.status(405).json({ message: 'Method Not Allowed' }); // If not GET method
+    res.status(405).json({ message: 'Method Not Allowed' });
   }
 }
 

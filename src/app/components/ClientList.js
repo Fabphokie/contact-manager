@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-const ClientList = () => {
-  const [clients, setClients] = useState([]);
+const contactList = ({ refresh }) => {
+  const [contacts, setcontacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchClients = async () => {
+    const fetchcontacts = async () => {
       try {
-        const response = await fetch('/api/clients'); // The API endpoint we just created
+        const response = await fetch('/api/contacts'); // API endpoint to get contacts
         if (!response.ok) {
-          throw new Error('Failed to fetch clients');
+          throw new Error('Failed to fetch contacts');
         }
         const data = await response.json();
-        setClients(data.clients); // Store the clients data
+        setcontacts(data.contacts);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -21,11 +21,11 @@ const ClientList = () => {
       }
     };
 
-    fetchClients();
-  }, []); // Empty dependency array means this runs once when the component mounts
+    fetchcontacts();
+  }, [refresh]); // Dependency array listens to the `refresh` prop to trigger re-fetching
 
   if (loading) {
-    return <div>Loading clients...</div>;
+    return <div>Loading contacts...</div>;
   }
 
   if (error) {
@@ -34,7 +34,7 @@ const ClientList = () => {
 
   return (
     <div>
-      <h2>Client List</h2>
+      <h2>contact List</h2>
       <table>
         <thead>
           <tr>
@@ -43,18 +43,16 @@ const ClientList = () => {
             <th>Email</th>
             <th>Phone</th>
             <th>Address</th>
-            <th>Created At</th>
           </tr>
         </thead>
         <tbody>
-          {clients.map((client) => (
-            <tr key={client._id}>
-              <td>{client.name}</td>
-              <td>{client.contactPerson}</td>
-              <td>{client.contactEmail}</td>
-              <td>{client.phone}</td>
-              <td>{client.address}</td>
-              <td>{new Date(client.createdAt).toLocaleString()}</td>
+          {contacts.map((contact) => (
+            <tr key={contact._id}>
+              <td>{contact.name}</td>
+              <td>{contact.contactPerson}</td>
+              <td>{contact.contactEmail}</td>
+              <td>{contact.phone}</td>
+              <td>{contact.address}</td>
             </tr>
           ))}
         </tbody>
@@ -63,4 +61,4 @@ const ClientList = () => {
   );
 };
 
-export default ClientList;
+export default contactList;
