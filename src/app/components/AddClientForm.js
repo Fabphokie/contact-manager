@@ -48,59 +48,79 @@ const AddClientForm = () => {
   };
 
   return (
-    <div>
-      <h2>Add New Client</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Add New Client</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label>Client Name:</label>
+          <label className="block text-gray-700 font-medium mb-1">Client Name:</label>
           <input
             type="text"
             value={clientName}
             onChange={(e) => setClientName(e.target.value)}
             required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
+
         <div>
-          <label>Contact Person:</label>
+          <label className="block text-gray-700 font-medium mb-1">Contact Person:</label>
           <input
             type="text"
             value={clientContactPerson}
             onChange={(e) => setClientContactPerson(e.target.value)}
             required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
+
         <div>
-          <label>Contact Email:</label>
+          <label className="block text-gray-700 font-medium mb-1">Contact Email:</label>
           <input
             type="email"
             value={clientContactEmail}
             onChange={(e) => setClientContactEmail(e.target.value)}
             required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
+
         <div>
-          <label>Phone:</label>
+          <label className="block text-gray-700 font-medium mb-1">Phone:</label>
           <input
             type="tel"
             value={clientPhone}
             onChange={(e) => setClientPhone(e.target.value)}
             required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
+
         <div>
-          <label>Address:</label>
+          <label className="block text-gray-700 font-medium mb-1">Address:</label>
           <input
             type="text"
             value={clientAddress}
             onChange={(e) => setClientAddress(e.target.value)}
             required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
-        <button type="submit">Add Client</button>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition"
+        >
+          Add Client
+        </button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      {error && (
+        <p className="mt-4 text-red-600 text-center font-medium">Error: {error}</p>
+      )}
+      {successMessage && (
+        <p className="mt-4 text-green-600 text-center font-medium">{successMessage}</p>
+      )}
     </div>
   );
 };
