@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-const contactList = ({ refresh }) => {
-  const [contacts, setcontacts] = useState([]);
+const ContactList = () => {
+  const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchcontacts = async () => {
+    const fetchContacts = async () => {
       try {
-        const response = await fetch('/api/contacts'); // API endpoint to get contacts
+        const response = await fetch('/api/contacts'); // Ensure this path matches your API route
         if (!response.ok) {
           throw new Error('Failed to fetch contacts');
         }
         const data = await response.json();
-        setcontacts(data.contacts);
+        setContacts(data.contacts);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -21,38 +21,31 @@ const contactList = ({ refresh }) => {
       }
     };
 
-    fetchcontacts();
-  }, [refresh]); // Dependency array listens to the `refresh` prop to trigger re-fetching
+    fetchContacts();
+  }, []);
 
-  if (loading) {
-    return <div>Loading contacts...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div className="text-center text-gray-500 mt-4">Loading...</div>;
+  if (error) return <div className="text-center text-red-600 font-medium mt-4">Error: {error}</div>;
 
   return (
-    <div>
-      <h2>contact List</h2>
-      <table>
+    <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contact List</h2>
+      <table className="table-auto w-full border border-gray-200 rounded-lg overflow-hidden">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Contact Person</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
+          <tr className="bg-gray-200 text-gray-600 uppercase text-sm">
+            <th className="px-4 py-2 font-semibold">Name</th>
+            <th className="px-4 py-2 font-semibold">Surname</th>
+            <th className="px-4 py-2 font-semibold">Email Address</th>
+            <th className="px-4 py-2 font-semibold">Client Code</th>
           </tr>
         </thead>
         <tbody>
           {contacts.map((contact) => (
-            <tr key={contact._id}>
-              <td>{contact.name}</td>
-              <td>{contact.contactPerson}</td>
-              <td>{contact.contactEmail}</td>
-              <td>{contact.phone}</td>
-              <td>{contact.address}</td>
+            <tr key={contact._id} className="odd:bg-white even:bg-gray-50">
+              <td className="border px-4 py-2 text-gray-700">{contact.name}</td>
+              <td className="border px-4 py-2 text-gray-700">{contact.surname}</td>
+              <td className="border px-4 py-2 text-gray-700">{contact.email}</td>
+              <td className="border px-4 py-2 text-gray-700">{contact.clientCode}</td>
             </tr>
           ))}
         </tbody>
@@ -61,4 +54,4 @@ const contactList = ({ refresh }) => {
   );
 };
 
-export default contactList;
+export default ContactList;

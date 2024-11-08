@@ -1,22 +1,33 @@
-import clientPromise from '../../../lib/mongodb'; // Assuming you have this for DB connection
+import clientPromise from '../../../lib/mongodb';
 
-export async function handler(req, res) {
-  const client = await clientPromise;
-  const db = client.db('mmaphokengsenne'); // Use your database name
-  const contactsCollection = db.collection('contacts'); // Use your contacts collection name
+export async function GET(req) {
+  try {
+    // Connect to the MongoDB client
+    const client = await clientPromise;
+    const db = client.db('mmaphokengsenne');
+    const contactsCollection = db.collection('contacts');
 
-  if (req.method === 'GET') {
-    try {
-      // Fetch all contacts
-      const contacts = await contactsCollection.find().toArray();
-      res.status(200).json({ contacts }); // Return the contacts as response
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-      res.status(500).json({ error: 'Failed to fetch contacts' });
-    }
-  } else {
-    res.status(405).json({ message: 'Method Not Allowed' });
+    // Fetch all contacts from the 'contacts' collection
+    const contacts = await contactsCollection.find().toArray();
+
+    // Return the fetched contacts as a JSON response
+    return new Response(JSON.stringify({ contacts }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+
+    // Handle server errors
+    return new Response(
+      JSON.stringify({ error: 'Failed to fetch contacts' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 }
 
-export default handler;
+export const config = {
+  api: {
+    bodyParser: false, // If you want to disable body parsing
+  },
+};

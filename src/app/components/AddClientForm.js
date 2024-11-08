@@ -1,13 +1,11 @@
-// src/app/components/AddClientForm.js
-"use client"
+"use client";
 import { useState } from 'react';
 
-const AddClientForm = () => {
+const AddClientForm = ({ onClientAdded }) => {
   const [clientName, setClientName] = useState('');
-  const [clientContactPerson, setClientContactPerson] = useState('');
+  const [clientSurname, setClientSurname] = useState('');
   const [clientContactEmail, setClientContactEmail] = useState('');
-  const [clientPhone, setClientPhone] = useState('');
-  const [clientAddress, setClientAddress] = useState('');
+  const [clientCode, setClientCode] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -16,10 +14,9 @@ const AddClientForm = () => {
 
     const clientData = {
       name: clientName,
-      contactPerson: clientContactPerson,
+      surname: clientSurname,
       contactEmail: clientContactEmail,
-      phone: clientPhone,
-      address: clientAddress,
+      clientCode: clientCode,
     };
 
     try {
@@ -38,10 +35,12 @@ const AddClientForm = () => {
       const data = await response.json();
       setSuccessMessage('Client added successfully!');
       setClientName('');
-      setClientContactPerson('');
+      setClientSurname('');
       setClientContactEmail('');
-      setClientPhone('');
-      setClientAddress('');
+      setClientCode('');
+      setError('');
+
+      if (onClientAdded) onClientAdded(); // Trigger refresh in parent component
     } catch (error) {
       setError(error.message);
     }
@@ -53,7 +52,7 @@ const AddClientForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Client Name:</label>
+          <label className="block text-gray-700 font-medium mb-1">First Name:</label>
           <input
             type="text"
             value={clientName}
@@ -64,18 +63,18 @@ const AddClientForm = () => {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Contact Person:</label>
+          <label className="block text-gray-700 font-medium mb-1">Surname:</label>
           <input
             type="text"
-            value={clientContactPerson}
-            onChange={(e) => setClientContactPerson(e.target.value)}
+            value={clientSurname}
+            onChange={(e) => setClientSurname(e.target.value)}
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Contact Email:</label>
+          <label className="block text-gray-700 font-medium mb-1">Email Address:</label>
           <input
             type="email"
             value={clientContactEmail}
@@ -86,22 +85,11 @@ const AddClientForm = () => {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Phone:</label>
-          <input
-            type="tel"
-            value={clientPhone}
-            onChange={(e) => setClientPhone(e.target.value)}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">Address:</label>
+          <label className="block text-gray-700 font-medium mb-1">Client Code:</label>
           <input
             type="text"
-            value={clientAddress}
-            onChange={(e) => setClientAddress(e.target.value)}
+            value={clientCode}
+            onChange={(e) => setClientCode(e.target.value)}
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />

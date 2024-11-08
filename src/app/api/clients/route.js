@@ -1,13 +1,12 @@
-// src/app/api/clients/route.js
 import clientPromise from '../../../lib/mongodb';
 
 export async function POST(req) {
   try {
     // Parse the incoming request body to get client data
-    const { name, contactPerson, contactEmail, phone, address } = await req.json();
+    const { name, surname, contactEmail, clientCode } = await req.json();
 
     // Validate that all required fields are provided
-    if (!name || !contactPerson || !contactEmail || !phone || !address) {
+    if (!name || !surname || !contactEmail || !clientCode) {
       return new Response(
         JSON.stringify({ error: 'All fields are required' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -22,17 +21,16 @@ export async function POST(req) {
     // Create the new client document
     const newClient = {
       name,
-      contactPerson,
+      surname,
       contactEmail,
-      phone,
-      address,
+      clientCode,
       createdAt: new Date(),
     };
 
     // Insert the document into the collection
     const result = await collection.insertOne(newClient);
 
-    // Return a success response
+    // Return a success response with "added successfully" alert
     return new Response(
       JSON.stringify({
         message: 'Client added successfully',
