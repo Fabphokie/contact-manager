@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import AddClientForm from './components/AddClientForm';
 import ClientList from './components/ClientList';
-import LinkClient from './components/LinkClient'; // Import LinkClient Component
+import LinkClient from './components/LinkClient'; 
 
 const Page = () => {
   const [view, setView] = useState('view'); // 'add' or 'view'
@@ -12,7 +12,7 @@ const Page = () => {
 
   const handleClientAdded = () => {
     setRefresh((prev) => !prev); // Trigger refresh by toggling the state
-    setView('view'); // Switch back to the view clients list
+    
   };
 
   const handleError = (errorMessage) => {

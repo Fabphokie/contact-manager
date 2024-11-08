@@ -8,7 +8,7 @@ const ContactList = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch('/api/contacts'); // Ensure this path matches your API route
+        const response = await fetch('/api/contacts'); 
         if (!response.ok) {
           throw new Error('Failed to fetch contacts');
         }
@@ -16,7 +16,7 @@ const ContactList = () => {
         setContacts(data.contacts);
         setLoading(false);
       } catch (err) {
-        console.error('Fetch error:', err); // Log error for debugging
+        console.error('Fetch error:', err);
         setError(err.message);
         setLoading(false);
       }
@@ -43,7 +43,7 @@ const ContactList = () => {
         </thead>
         <tbody>
           {contacts.map((contact, index) => (
-            // Combining unique fields (e.g., contact._id?.$oid, contact.clientCode, index) to form a unique key
+            // Combining unique fields 
             <tr key={contact._id?.$oid || `${contact.clientCode}-${index}`} className="hover:bg-gray-100">
               <td className="px-6 py-4 border-t">{contact.name}</td>
               <td className="px-6 py-4 border-t">{contact.surname}</td>

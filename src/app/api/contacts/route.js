@@ -28,6 +28,6 @@ export async function GET(req) {
 
 export const config = {
   api: {
-    bodyParser: false, // If you want to disable body parsing
+    bodyParser: false,
   },
 };

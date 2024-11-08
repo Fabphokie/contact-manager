@@ -5,7 +5,7 @@ export async function POST(req) {
     // Parse the incoming request body to get client data
     const { name, surname, contactEmail, clientCode } = await req.json();
 
-    // Validate that all required fields are provided
+    // Validation
     if (!name || !surname || !contactEmail || !clientCode) {
       return new Response(
         JSON.stringify({ error: 'All fields are required' }),
